@@ -96,23 +96,21 @@ const ContactForm = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      // Send analytics event for form submission
-      await fetch(`${import.meta.env.VITE_PUBLIC_API_URL || "https://api.sellerslogin.com/api"}/v1/analytics/track`, {
+      // Send analytics event for form submission to track as a Lead
+      await fetch(`${import.meta.env.VITE_PUBLIC_API_URL || "https://api.sellerslogin.com/api"}/website/leads`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          eventType: "checkout",
-          path: window.location.pathname,
-          fullUrl: window.location.href,
-          title: "Form Submitted",
-          source: "template",
-          userId: formData.email, // using email as userId for visibility
-          visitorId: formData.fullName, // using name as visitorId for visibility
-          metadata: { 
-            templateId: "tukka-tech-landing",
-            company: formData.companyName,
-            soldOnline: formData.soldOnline
-          }
+          websiteId: "tukkatech",
+          website: "Tukka Tech Website",
+          name: formData.fullName,
+          email: formData.email,
+          phone: formData.number,
+          subject: "Tukka Registration",
+          message: `Company: ${formData.companyName}, City: ${formData.city}, Products: ${formData.products}, Sold Online: ${formData.soldOnline}`,
+          page: window.location.pathname,
+          visitorId: window.localStorage.getItem("tukkatech_analytics_visitor") || "",
+          sessionId: window.sessionStorage.getItem("tukkatech_analytics_session") || ""
         })
       }).catch(e => console.error(e));
 
@@ -930,26 +928,6 @@ export default function App() {
   const [activeModal, setActiveModal] = useState<string | null>(null);
 
   useEffect(() => {
-    const trackView = async () => {
-      try {
-        await fetch(`${import.meta.env.VITE_PUBLIC_API_URL || "https://api.sellerslogin.com/api"}/v1/analytics/track`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            eventType: "page_view",
-            path: window.location.pathname,
-            fullUrl: window.location.href,
-            title: document.title,
-            source: "template",
-            metadata: { templateId: "tukka-tech-landing" }
-          })
-        });
-      } catch (e) {
-        console.error("Analytics error", e);
-      }
-    };
-    trackView();
-
     const timer = setTimeout(() => {
       setActiveModal('contact');
     }, 2000);
