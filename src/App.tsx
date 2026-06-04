@@ -36,6 +36,7 @@ import {
   MessageSquare
 } from "lucide-react";
 import { useState, useEffect, ReactNode, FormEvent } from "react";
+import { WebsiteAnalyticsTracker } from "./components/analytics/WebsiteAnalyticsTracker";
 
 const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose: () => void, title: ReactNode, children: ReactNode }) => {
   useEffect(() => {
@@ -1002,6 +1003,7 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-gray-900 selection:bg-orange-100 selection:text-orange-900">
+      <WebsiteAnalyticsTracker />
       <Navbar onOpenModal={setActiveModal} />
       <main>
         <Hero onOpenModal={setActiveModal} />
