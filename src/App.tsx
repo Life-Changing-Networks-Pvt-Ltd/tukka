@@ -109,7 +109,7 @@ const ContactForm = () => {
           subject: "Tukka Registration",
           message: `Company: ${formData.companyName}, City: ${formData.city}, Products: ${formData.products}, Sold Online: ${formData.soldOnline}`,
           page: window.location.pathname,
-          visitorId: window.localStorage.getItem("tukkatech_analytics_visitor") || "",
+          visitorId: window.sessionStorage.getItem("tukkatech_analytics_visitor") || "",
           sessionId: window.sessionStorage.getItem("tukkatech_analytics_session") || ""
         })
       }).catch(e => console.error(e));

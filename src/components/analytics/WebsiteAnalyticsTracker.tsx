@@ -7,13 +7,13 @@ const STORAGE_PREFIX = "tukkatech_analytics";
 const getOrCreateId = (key: string) => {
   if (typeof window === "undefined") return "";
   const storageKey = `${STORAGE_PREFIX}_${key}`;
-  const existing = window.localStorage.getItem(storageKey);
+  const existing = window.sessionStorage.getItem(storageKey);
   if (existing) return existing;
   const value =
     typeof crypto !== "undefined" && "randomUUID" in crypto
       ? crypto.randomUUID()
       : `${Date.now()}-${Math.random().toString(16).slice(2)}`;
-  window.localStorage.setItem(storageKey, value);
+  window.sessionStorage.setItem(storageKey, value);
   return value;
 };
 
